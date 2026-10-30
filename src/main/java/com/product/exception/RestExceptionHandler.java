@@ -16,50 +16,34 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-        @ExceptionHandler(ApiException.class)
-        protected ResponseEntity<ExceptionResponse> handleApiException(
-                        ApiException exception,
-                        WebRequest request) {
+    @ExceptionHandler(ApiException.class)
+    protected ResponseEntity<ExceptionResponse> handleApiException(
+            ApiException exception, WebRequest request) {
 
-                ExceptionResponse response = new ExceptionResponse();
+        ExceptionResponse response = new ExceptionResponse();
+        response.setTimestamp(LocalDateTime.now());
+        response.setStatus(exception.getStatus().value());
+        response.setError(exception.getStatus());
+        response.setMessage(exception.getMessage());
+        response.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
-                response.setTimestamp(LocalDateTime.now());
-                response.setStatus(exception.getStatus().value());
-                response.setError(exception.getStatus());
-                response.setMessage(exception.getMessage());
-                response.setPath(
-                                ((ServletWebRequest) request)
-                                                .getRequest()
-                                                .getRequestURI());
+        return new ResponseEntity<>(response, exception.getStatus());
+    }
 
-                return new ResponseEntity<>(
-                                response,
-                                exception.getStatus());
-        }
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException exception,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-        @Override
-        protected ResponseEntity<Object> handleMethodArgumentNotValid(
-                        MethodArgumentNotValidException exception,
-                        HttpHeaders headers,
-                        HttpStatusCode status,
-                        WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setTimestamp(LocalDateTime.now());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setError(HttpStatus.BAD_REQUEST);
+        response.setMessage(exception.getBindingResult().getFieldError() == null
+                ? "Los datos enviados no son válidos"
+                : exception.getBindingResult().getFieldError().getDefaultMessage());
+        response.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
-                ExceptionResponse response = new ExceptionResponse();
-
-                response.setTimestamp(LocalDateTime.now());
-                response.setStatus(HttpStatus.BAD_REQUEST.value());
-                response.setError(HttpStatus.BAD_REQUEST);
-                response.setMessage(
-                                exception.getBindingResult()
-                                                .getFieldError()
-                                                .getDefaultMessage());
-                response.setPath(
-                                ((ServletWebRequest) request)
-                                                .getRequest()
-                                                .getRequestURI());
-
-                return new ResponseEntity<>(
-                                response,
-                                HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
