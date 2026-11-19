@@ -14,20 +14,18 @@ public interface RepoCategory extends JpaRepository<Category, Integer> {
 
     List<Category> findByStatusOrderByCategoryAsc(Integer status);
 
-    List<Category> findByParentCategoryIdOrderByCategoryAsc(
-            Integer parentCategoryId);
+    List<Category> findByParentCategoryIdOrderByCategoryAsc(Integer parentCategoryId);
 
     boolean existsByCategoryIgnoreCase(String category);
 
     boolean existsByTagIgnoreCase(String tag);
 
-    boolean existsByCategoryIgnoreCaseAndCategoryIdNot(
-            String category,
-            Integer categoryId);
+    boolean existsByCategoryIgnoreCaseAndCategoryIdNot(String category, Integer categoryId);
 
-    boolean existsByTagIgnoreCaseAndCategoryIdNot(
-            String tag,
-            Integer categoryId);
+    boolean existsByTagIgnoreCaseAndCategoryIdNot(String tag, Integer categoryId);
 
     boolean existsByParentCategoryId(Integer parentCategoryId);
+
+    // La desactivación de un padre solo se impide si tiene alguna hija ACTIVA.
+    boolean existsByParentCategoryIdAndStatus(Integer parentCategoryId, Integer status);
 }

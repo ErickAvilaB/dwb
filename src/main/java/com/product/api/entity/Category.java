@@ -1,7 +1,6 @@
 package com.product.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,12 +37,8 @@ public class Category {
     public Category() {
     }
 
-    public Category(
-            Integer categoryId,
-            String category,
-            String tag,
-            Integer parentCategoryId,
-            Integer status) {
+    public Category(Integer categoryId, String category, String tag,
+                    Integer parentCategoryId, Integer status) {
         this.categoryId = categoryId;
         this.category = category;
         this.tag = tag;
@@ -51,43 +46,14 @@ public class Category {
         this.status = status;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Integer getParentCategoryId() {
-        return parentCategoryId;
-    }
-
-    public void setParentCategoryId(Integer parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+    public Integer getCategoryId() { return categoryId; }
+    public void setCategoryId(Integer categoryId) { this.categoryId = categoryId; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+    public String getTag() { return tag; }
+    public void setTag(String tag) { this.tag = tag; }
+    public Integer getParentCategoryId() { return parentCategoryId; }
+    public void setParentCategoryId(Integer parentCategoryId) { this.parentCategoryId = parentCategoryId; }
+    public Integer getStatus() { return status; }
+    public void setStatus(Integer status) { this.status = status; }
 }
